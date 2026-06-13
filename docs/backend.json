@@ -1,0 +1,405 @@
+
+{
+  "entities": {
+    "Project": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Project",
+      "type": "object",
+      "description": "Represents a user's saved project, encapsulating all configurations and settings for a specific LED screen setup.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Project entity."
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "The UID of the user who owns this project."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the project, chosen by the user."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the project's purpose or specifics."
+        },
+        "author": {
+          "type": "string",
+          "description": "The author of the project."
+        },
+        "config": {
+          "type": "string",
+          "description": "A JSON string containing the full project state."
+        },
+        "lastModified": {
+          "type": "string",
+          "description": "Timestamp indicating when the project was last updated.",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the project was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "ownerId",
+        "name",
+        "config"
+      ]
+    },
+    "LedScreenConfiguration": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "LedScreenConfiguration",
+      "type": "object",
+      "description": "Defines the specific parameters, inputs, and calculated outputs for an LED screen setup within a project. This entity consolidates data from various calculators (resolution, power, data, weight) and map generators.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the LedScreenConfiguration entity."
+        },
+        "projectId": {
+          "type": "string",
+          "description": "Reference to the Project this configuration belongs to. (Relationship: Project 1:N LedScreenConfiguration, typically 1:1 for the main configuration)."
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "The UID of the user who owns this configuration."
+        },
+        "selectedLedProductId": {
+          "type": "string",
+          "description": "Optional reference to an LedProduct entity used as a template or base for this configuration. (Relationship: LedProduct 1:N LedScreenConfiguration)"
+        },
+        "displayWidthInMeters": {
+          "type": "number",
+          "description": "The desired total physical width of the LED screen in meters."
+        },
+        "displayHeightInMeters": {
+          "type": "number",
+          "description": "The desired total physical height of the LED screen in meters."
+        },
+        "pixelPitchInMM": {
+          "type": "number",
+          "description": "The pixel pitch of the LED screen modules in millimeters (distance between pixel centers)."
+        },
+        "modulesHorizontal": {
+          "type": "number",
+          "description": "The number of LED modules arranged horizontally in the screen setup."
+        },
+        "modulesVertical": {
+          "type": "number",
+          "description": "The number of LED modules arranged vertically in the screen setup."
+        },
+        "moduleWidthPixels": {
+          "type": "number",
+          "description": "The pixel width of a single LED module, if modules are used in configuration."
+        },
+        "moduleHeightPixels": {
+          "type": "number",
+          "description": "The pixel height of a single LED module, if modules are used in configuration."
+        },
+        "modulePhysicalWidthInMM": {
+          "type": "number",
+          "description": "The physical width of a single LED module in millimeters, if modules are used in configuration."
+        },
+        "modulePhysicalHeightInMM": {
+          "type": "number",
+          "description": "The physical height of a single LED module in millimeters, if modules are used in configuration."
+        },
+        "totalPixelsWidth": {
+          "type": "number",
+          "description": "The total calculated pixel width of the entire LED screen."
+        },
+        "totalPixelsHeight": {
+          "type": "number",
+          "description": "The total calculated pixel height of the entire LED screen."
+        },
+        "totalPhysicalWidthInMeters": {
+          "type": "number",
+          "description": "The total calculated physical width of the entire LED screen in meters."
+        },
+        "totalPhysicalHeightInMeters": {
+          "type": "number",
+          "description": "The total calculated physical height of the entire LED screen in meters."
+        },
+        "totalScreenWeightInKg": {
+          "type": "number",
+          "description": "The total calculated weight of the LED screen setup in kilograms."
+        },
+        "totalPowerConsumptionInWatts": {
+          "type": "number",
+          "description": "The total calculated power consumption of the LED screen setup in watts."
+        },
+        "totalCurrentDrawInAmperes": {
+          "type": "number",
+          "description": "The total calculated current draw (amperes) of the LED screen setup."
+        },
+        "dataInputRequirements": {
+          "type": "string",
+          "description": "A description or summary of the data input requirements, e.g., '2 sending cards, 8 ports each'."
+        },
+        "pixelMapPattern": {
+          "type": "string",
+          "description": "The pattern selected for pixel map generation (e.g., 'checkerboard')."
+        },
+        "rasterMapConfiguration": {
+          "type": "string",
+          "description": "Serialized configuration details for raster map generation, assisting content designers (e.g., JSON string or specific format)."
+        }
+      },
+      "required": [
+        "id",
+        "projectId",
+        "ownerId",
+        "displayWidthInMeters",
+        "displayHeightInMeters",
+        "pixelPitchInMM"
+      ]
+    },
+    "LedProduct": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "LedProduct",
+      "type": "object",
+      "description": "Represents a specific model of an LED display module or panel with its physical, pixel, and electrical specifications, typically sourced from a product catalog.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the LedProduct entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The marketing name of the LED product (e.g., 'Absen PL2.5 Pro')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the LED product, including features and benefits."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "The manufacturer of the LED product."
+        },
+        "modelNumber": {
+          "type": "string",
+          "description": "The specific model number or SKU of the LED product."
+        },
+        "pixelWidth": {
+          "type": "number",
+          "description": "The pixel width of a single LED module."
+        },
+        "pixelHeight": {
+          "type": "number",
+          "description": "The pixel height of a single LED module."
+        },
+        "physicalWidthInMM": {
+          "type": "number",
+          "description": "The physical width of a single LED module in millimeters."
+        },
+        "physicalHeightInMM": {
+          "type": "number",
+          "description": "The physical height of a single LED module in millimeters."
+        },
+        "pixelPitchInMM": {
+          "type": "number",
+          "description": "The pixel pitch of the module in millimeters (distance between pixel centers)."
+        },
+        "weightPerModuleInKg": {
+          "type": "number",
+          "description": "The weight of a single LED module in kilograms."
+        },
+        "powerConsumptionPerModuleInWatts": {
+          "type": "number",
+          "description": "The typical power consumption of a single LED module in watts."
+        },
+        "maxRefreshRateHz": {
+          "type": "number",
+          "description": "The maximum refresh rate supported by the LED module in Hertz."
+        },
+        "brightnessNits": {
+          "type": "number",
+          "description": "The typical brightness of the LED module in Nits."
+        },
+        "dataInputPorts": {
+          "type": "number",
+          "description": "The number of data input ports available on the LED module."
+        },
+        "dataOutputPorts": {
+          "type": "number",
+          "description": "The number of data output ports available on the LED module."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "manufacturer",
+        "modelNumber",
+        "pixelWidth",
+        "pixelHeight",
+        "physicalWidthInMM",
+        "physicalHeightInMM",
+        "pixelPitchInMM",
+        "weightPerModuleInKg",
+        "powerConsumptionPerModuleInWatts"
+      ]
+    },
+    "Processor": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Processor",
+      "type": "object",
+      "description": "Represents an LED video processor with its technical limits and output capacities.",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "manufacturer": { "type": "string" },
+        "maxWidth": { "type": "number" },
+        "maxHeight": { "type": "number" },
+        "portCount": { "type": "number" },
+        "portCapacity": { "type": "object" }
+      },
+      "required": ["id", "name", "manufacturer", "maxWidth", "maxHeight", "portCount"]
+    },
+    "MediaServer": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "MediaServer",
+      "type": "object",
+      "description": "Represents a media server hardware profile.",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "outputs": { "type": "string", "description": "Number of physical outputs or 'Variable'." },
+        "maxResolution": { "type": "string" },
+        "codecs": { "type": "array", "items": { "type": "string" } },
+        "audio": { "type": "string" }
+      },
+      "required": ["id", "name", "outputs"]
+    },
+    "UserRole": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserRole",
+      "type": "object",
+      "description": "Defines the authorization role for a user.",
+      "properties": {
+        "role": { "type": "string", "enum": ["admin", "user"] }
+      },
+      "required": ["role"]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}/projects/{projectId}",
+        "definition": {
+          "entityName": "Project",
+          "schema": {
+            "$ref": "#/backend/entities/Project"
+          },
+          "description": "Collection for individual user projects.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique ID of the user who owns this project."
+            },
+            {
+              "name": "projectId",
+              "description": "The unique ID of the project."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/projects/{projectId}/ledScreenConfigurations/{configId}",
+        "definition": {
+          "entityName": "LedScreenConfiguration",
+          "schema": {
+            "$ref": "#/backend/entities/LedScreenConfiguration"
+          },
+          "description": "Subcollection for LED screen configurations.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique ID of the user who owns the parent project."
+            },
+            {
+              "name": "projectId",
+              "description": "The unique ID of the parent project."
+            },
+            {
+              "name": "configId",
+              "description": "The unique ID of the configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/led-products/{ledProductId}",
+        "definition": {
+          "entityName": "LedProduct",
+          "schema": {
+            "$ref": "#/backend/entities/LedProduct"
+          },
+          "description": "Global collection for LED product catalog data.",
+          "params": [
+            {
+              "name": "ledProductId",
+              "description": "The unique ID of the LED product."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/processors/{processorId}",
+        "definition": {
+          "entityName": "Processor",
+          "schema": {
+            "$ref": "#/backend/entities/Processor"
+          },
+          "description": "Global collection for LED processor specifications.",
+          "params": [
+            {
+              "name": "processorId",
+              "description": "The unique ID of the processor."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/media-servers/{serverId}",
+        "definition": {
+          "entityName": "MediaServer",
+          "schema": {
+            "$ref": "#/backend/entities/MediaServer"
+          },
+          "description": "Global collection for media server hardware profiles.",
+          "params": [
+            {
+              "name": "serverId",
+              "description": "The unique ID of the media server."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles/{userId}",
+        "definition": {
+          "entityName": "UserRole",
+          "schema": {
+            "$ref": "#/backend/entities/UserRole"
+          },
+          "description": "System roles for users.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique ID of the user."
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
